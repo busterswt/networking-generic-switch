@@ -55,14 +55,31 @@ class CiscoNxOS(netmiko_devices.NetmikoSwitch):
 
     PLUG_PORT_TO_NETWORK = (
         'interface {port}',
-        'switchport mode access',
-        'switchport access vlan {segmentation_id}',
+        'switchport mode trunk',
+        'switchport trunk native vlan {segmentation_id}',
+        'switchport trunk allowed vlan add {segmentation_id}',
+        'exit',
+    )
+
+    PLUG_PORT_TO_NETWORK_NATIVE = (
+        'interface {port}',
+        'switchport mode trunk',
+        'switchport trunk native vlan {segmentation_id}',
+        'switchport trunk allowed vlan add {segmentation_id}',
         'exit',
     )
 
     DELETE_PORT = (
         'interface {port}',
-        'no switchport access vlan',
+        'no switchport trunk native vlan',
+        'switchport trunk allowed vlan remove {segmentation_id}',
+        'exit',
+    )
+
+    DELETE_PORT_NATIVE = (
+        'interface {port}',
+        'no switchport trunk native vlan',
+        'switchport trunk allowed vlan remove {segmentation_id}',
         'exit',
     )
 
